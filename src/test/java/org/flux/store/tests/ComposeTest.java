@@ -1,6 +1,6 @@
 package org.flux.store.tests;
 
-import com.github.javafaker".Faker;
+import com.github.javafaker.Faker;
 import org.flux.store.api.Middleware;
 import org.flux.store.api.Reducer;
 import org.flux.store.main.DuxStore;
