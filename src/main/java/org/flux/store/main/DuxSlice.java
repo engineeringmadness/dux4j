@@ -20,7 +20,7 @@ public class DuxSlice<T extends State> implements Slice<T> {
         this.actions = actions;
     }
 
-    protected static <T extends State> DuxSlice<T> createSlice(T initialState, Map<String, Reducer<T>> reducers, List<Consumer<T>> subscribers, Middleware<T> middleware, Boolean asyncFlag, Boolean autoBackup, String backupPath) {
+    protected static <T extends State> DuxSlice<T> createSlice(T initialState, Map<String, Reducer<T>> reducers, List<Consumer<T>> subscribers, Middleware<T> middleware) {
         Reducer<T> reducer = (action, state) -> {
             for (String key: reducers.keySet()) {
                 if(action.getType().equalsIgnoreCase(key)) {
@@ -39,15 +39,6 @@ public class DuxSlice<T extends State> implements Slice<T> {
         for (Consumer<T> subscriber: subscribers) {
             myStore.subscribe(subscriber);
         }
-        if(asyncFlag) {
-            myStore.enableAsyncNotifications();
-        }
-        if(StringUtils.isNoneEmpty(backupPath)) {
-            myStore.setBackupPath(backupPath);
-        }
-        if(autoBackup) {
-            myStore.enableAutoBackup();
-        }
         DuxSlice<T> slice = new DuxSlice<>(myStore, new ArrayList<>(reducers.keySet()));
         return slice;
     }
@@ -57,26 +48,13 @@ public class DuxSlice<T extends State> implements Slice<T> {
                 builder.getInitialState(),
                 builder.getReducers(),
                 builder.getSubscribers(),
-                builder.getMiddleware(),
-                builder.getAsyncFlag(),
-                builder.getAutoBackup(),
-                builder.getBackupPath());
+                builder.getMiddleware());
     }
 
     public Consumer getAction(String type) throws InvalidActionException {
         if(!actions.contains(type))
             throw new InvalidActionException("Action type does not exist on slice");
         return payload -> store.dispatch(Utilities.actionCreator(type, payload));
-    }
-
-    @Override
-    public void restore(StoreBackup<T> backup) {
-        this.store.restore(backup);
-    }
-
-    @Override
-    public StoreBackup<T> backup() {
-        return this.store.backup();
     }
 
     @Override

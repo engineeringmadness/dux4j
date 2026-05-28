@@ -39,7 +39,6 @@ public class SliceBuilderTest {
                         throw new RuntimeException(e);
                     }
                 })
-                .enableAsyncNotifications()
                 .build();
     }
 

@@ -19,9 +19,6 @@ public class ReflectionDuxSliceBuilder<T extends State> {
     private List<Consumer<T>> subscribers = new ArrayList<>();
     private Middleware<T> middleware;
     private T initialState;
-    private Boolean asyncFlag = false;
-    private String backupPath;
-    private Boolean autoBackup = false;
 
     public ReflectionDuxSliceBuilder<T> setStoreName(String storeName) {
         this.storeName = storeName;
@@ -43,19 +40,8 @@ public class ReflectionDuxSliceBuilder<T extends State> {
         return this;
     }
 
-    public ReflectionDuxSliceBuilder<T> enableAutoBackup(String backupPath) {
-        this.autoBackup = true;
-        this.backupPath = backupPath;
-        return this;
-    }
-
     public ReflectionDuxSliceBuilder<T> addSubscriber(Consumer<T> subscriber) {
         this.subscribers.add(subscriber);
-        return this;
-    }
-
-    public ReflectionDuxSliceBuilder<T> enableAsyncNotifications() {
-        this.asyncFlag = true;
         return this;
     }
 
@@ -90,9 +76,6 @@ public class ReflectionDuxSliceBuilder<T extends State> {
                 this.initialState,
                 reducers,
                 this.subscribers,
-                this.middleware,
-                this.asyncFlag,
-                this.autoBackup,
-                this.backupPath);
+                this.middleware);
     }
 }
