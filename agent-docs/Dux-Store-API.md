@@ -82,18 +82,4 @@ myStore.subscribe(x -> {
 });
 ```
 
-By default the subscribers are notified of state changes in a synchronous manner. If your subscriber functions are complex and time consuming you can enable async notifications which are implemented using the CompletableFuture API.
-```java
-myStore.enableAsyncNotifications();
-```
-
-## Backup and Restore
-
-The store supports backup and restore functionality by serializing the store state to JSON. This allows us to flush the store when the application is stopped to any persistent storage like a file or DB and restore it back when application is running again.
-
-```java
-String json = myStore.exportStore();
-
-myStore.importStore(json);
-
-```
+By default the subscribers are notified of state changes in async manner which are implemented using the CompletableFuture API.

@@ -22,7 +22,6 @@ Slice<UserProfile> slice = new DuxSliceBuilder<UserProfile>()
                     return state;
                 })
                 .addSubscriber((state) -> System.out.println(state))
-                .enableAsyncNotifications()
                 .build();
 ```
 
@@ -31,7 +30,6 @@ The builder offers a variety of methodsto configure various aspects of the store
 | ----------- | ----------- |
 | setInitialState(State state)  | set initial state of slice   |
 | addReducer(String type, Reducer reducer)  | It takes a reducer which only works on a specific type of action  |
-| enableAsyncNotifications() | Subscribers are notified asynchronously so if subscriber code is computation intensive it doesn't block the main thread |
 | addSubscriber(Consumer subscriber) | Add a subscriber callback to slice |
 | setMiddleware(Middleware middleware) | Set a middleware to slice. If you want to use multiple you can use the compose utility |
 
@@ -43,21 +41,4 @@ Consumer setName = slice.getAction("setName");
 setName.accept(newName);
 
 Consumer setEmail = slice.getAction("updateEmail"); // throws InvalidActionException as slice does not have any reducer corresponding to that action type
-```
-
-
-The Slice / Store APIs also provide a mechanism for auto backup of store state to a file on disk in the form of JSON.
-This backup can be enabled and its triggered when application shuts down via a JVM Runtime hook.
-This helps achieve a level of inbuilt persistence on part of the Store at the same time leaving proper persistence in the hand of the application layer.
-
-
-```java
- this.slice = new DuxSliceBuilder<UserProfile>()
-                .setInitialState(new UserProfile("Karan Gupta", "karan@hello.com"))
-                .addReducer("setEmail", (action, state) -> {
-                    state.setEmail(action.getPayload().toString());
-                    return state;
-                })
-                .enableAutoBackup("path to backup file location")
-                .build();
 ```
