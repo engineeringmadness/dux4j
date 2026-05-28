@@ -2,8 +2,8 @@ package org.flux.store.tests;
 
 import org.flux.store.api.InvalidActionException;
 import org.flux.store.api.Slice;
-import org.flux.store.main.DuxSlice;
 import org.flux.store.main.DuxSliceBuilder;
+import org.flux.store.main.ReflectionDuxSliceBuilder;
 import org.flux.store.tests.domain.UserProfile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SliceBuilderTest {
+public class ReflectionSliceBuilderTest {
 
     private Slice<UserProfile> slice;
 
@@ -20,28 +20,12 @@ public class SliceBuilderTest {
 
     @BeforeEach
     public void init() {
-        this.slice = new DuxSliceBuilder<UserProfile>()
+        this.slice = new ReflectionDuxSliceBuilder<UserProfile>()
                 .setInitialState(new UserProfile("Karan Gupta", "karan@hello.com"))
-                .addReducer("setEmail", (action, state) -> {
-                    state.setEmail(action.getPayload().toString());
-                    return state;
-                })
-                .addReducer("setName", (action, state) -> {
-                    state.setName(action.getPayload().toString());
-                    return state;
-                })
-                .addSubscriber((state) -> System.out.println(state))
-                .addSubscriber((state) -> {
-                    try {
-                        Thread.sleep(5000);
-                        sampleState = true;
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .setStoreName("MyStore")
+                .setBasePackage("org.flux.store.tests.reflection")
                 .build();
     }
-
     @Test
     public void canUpdateSliceWithValidAction() throws InvalidActionException {
         String newName = "Manoj Gupta";
@@ -59,4 +43,5 @@ public class SliceBuilderTest {
     public void failUpdateSliceWithInvalidAction() {
         assertThrows(InvalidActionException.class, () -> slice.getAction("updateEmail"));
     }
+
 }

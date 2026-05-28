@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.DiffResult;
 import org.flux.store.api.*;
-import org.flux.store.utils.FileBackup;
 import org.flux.store.utils.AsyncProcessor;
 import org.flux.store.utils.TimeTravel;
 import org.flux.store.utils.Utilities;
@@ -28,17 +27,10 @@ public class DuxStore<T extends State> implements Store<T> {
     private Middleware<T> middleware;
     private Gson gson = new Gson();
 
-    private boolean asyncFlag;
-
-    private boolean autoBackup;
-
-    private String backupPath;
-
     public DuxStore(T initialState, Reducer<T> reducer) {
         this.state = initialState;
         this.reducer = reducer;
         this.timeTravel.recordChange(new Action<>(Utilities.INITIAL_ACTION, initialState), initialState);
-        Runtime.getRuntime().addShutdownHook(new Thread(this::backupToFile));
     }
 
     public DuxStore(DuxStoreBuilder<T> builder) {
@@ -46,11 +38,7 @@ public class DuxStore<T extends State> implements Store<T> {
         this.reducer = builder.getReducer();
         this.listeners = builder.listeners;
         this.middleware = builder.getMiddleware();
-        this.asyncFlag = builder.getAsyncFlag();
-        this.autoBackup = builder.getAutoBackup();
-        this.backupPath = builder.getBackupPath();
         this.timeTravel.recordChange(new Action<>(Utilities.INITIAL_ACTION, builder.getInitialState()), builder.getInitialState());
-        Runtime.getRuntime().addShutdownHook(new Thread(this::backupToFile));
     }
 
     public DuxStore(T initialState, Reducer<T> reducer, Middleware<T> middleware) {
@@ -70,11 +58,6 @@ public class DuxStore<T extends State> implements Store<T> {
         } else {
             dispatchInternal(action);
         }
-    }
-
-    @Override
-    public void dispatch(Thunk<T> action) {
-        action.process(this::dispatch, this::getState);
     }
 
     private void dispatchInternal(Action action) {
@@ -117,26 +100,8 @@ public class DuxStore<T extends State> implements Store<T> {
         this.reducer = newReducer;
     }
 
-    @Override
-    public void restore(StoreBackup<T> backup) {
-        this.state = backup.getCurrentState();
-        this.timeTravel = new TimeTravel<>(backup.getLatestSnapshot(), backup.getActions(), backup.getCurrentIndex());
-    }
-
-    @Override
-    public StoreBackup<T> backup() {
-        return new StoreBackup<>(this.state,
-                this.timeTravel.getSnapshot(),
-                this.timeTravel.getActions(),
-                this.timeTravel.getIndex());
-    }
-
     private void notifyListeners() {
-        if(!asyncFlag) {
-            this.listeners.forEach(l -> l.accept(this.state));
-        } else {
-            this.listeners.forEach(l -> AsyncProcessor.submitNotify(l, this.state));
-        }
+        this.listeners.forEach(l -> AsyncProcessor.submitNotify(l, this.state));
     }
 
     public void goBack() {
@@ -167,23 +132,5 @@ public class DuxStore<T extends State> implements Store<T> {
 
     public List<String> getActionHistory() {
         return this.timeTravel.getFullActionHistory();
-    }
-
-    public void enableAsyncNotifications() {
-        this.asyncFlag = true;
-    }
-
-    public void enableAutoBackup() {
-        this.autoBackup = true;
-    }
-
-    public void setBackupPath(String path) {
-        this.backupPath = path;
-    }
-
-    protected void backupToFile() {
-        if(StringUtils.isNoneEmpty(this.backupPath) && this.autoBackup) {
-            FileBackup.saveBackup(this.backupPath, this.gson.toJson(this.backup()));
-        }
     }
 }

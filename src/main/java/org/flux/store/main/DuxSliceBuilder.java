@@ -18,9 +18,6 @@ public class DuxSliceBuilder<T extends State> {
     private List<Consumer<T>> subscribers = new ArrayList<>();
     private Middleware<T> middleware;
     private T initialState;
-    private Boolean asyncFlag = false;
-    private String backupPath;
-    private Boolean autoBackup = false;
     public DuxSliceBuilder<T> setInitialState(T initialState) {
         this.initialState = initialState;
         return this;
@@ -31,12 +28,6 @@ public class DuxSliceBuilder<T extends State> {
         return this;
     }
 
-    public DuxSliceBuilder<T> enableAutoBackup(String backupPath) {
-        this.autoBackup = true;
-        this.backupPath = backupPath;
-        return this;
-    }
-
     public DuxSliceBuilder<T> addReducer(String type, Reducer<T> reducer) {
         this.reducers.put(type, reducer);
         return this;
@@ -44,11 +35,6 @@ public class DuxSliceBuilder<T extends State> {
 
     public DuxSliceBuilder<T> addSubscriber(Consumer<T> subscriber) {
         this.subscribers.add(subscriber);
-        return this;
-    }
-
-    public DuxSliceBuilder<T> enableAsyncNotifications() {
-        this.asyncFlag = true;
         return this;
     }
 
