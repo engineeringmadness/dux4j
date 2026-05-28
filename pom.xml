@@ -62,7 +62,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
+            <version>3.20.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -101,12 +101,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>5.2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.9.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
