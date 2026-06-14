@@ -1,6 +1,6 @@
 package org.flux.store.utils;
 
-import org.flux.store.api.AsyncNotificationException;
+import org.flux.store.api.exceptions.AsyncNotificationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

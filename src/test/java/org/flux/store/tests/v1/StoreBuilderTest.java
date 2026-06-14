@@ -1,8 +1,8 @@
-package org.flux.store.tests;
+package org.flux.store.tests.v1;
 
-import org.flux.store.api.Action;
-import org.flux.store.main.DuxStore;
-import org.flux.store.main.DuxStoreBuilder;
+import org.flux.store.api.v1.Action;
+import org.flux.store.main.v1.DuxStore;
+import org.flux.store.main.v1.DuxStoreBuilder;
 import org.flux.store.utils.Utilities;
 import org.flux.store.tests.domain.UserProfile;
 import org.junit.jupiter.api.BeforeEach;

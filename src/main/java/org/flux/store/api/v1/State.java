@@ -1,4 +1,4 @@
-package org.flux.store.api;
+package org.flux.store.api.v1;
 
 import org.apache.commons.lang3.builder.DiffResult;
 import org.apache.commons.lang3.builder.Diffable;

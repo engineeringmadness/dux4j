@@ -1,9 +1,8 @@
-package org.flux.store.tests;
+package org.flux.store.tests.v3;
 
-import org.flux.store.api.InvalidActionException;
-import org.flux.store.api.Slice;
-import org.flux.store.main.DuxSliceBuilder;
-import org.flux.store.main.ReflectionDuxSliceBuilder;
+import org.flux.store.api.exceptions.InvalidActionException;
+import org.flux.store.api.v2.Slice;
+import org.flux.store.main.v3.ReflectionDuxSliceBuilder;
 import org.flux.store.tests.domain.UserProfile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ReflectionSliceBuilderTest {
 
     private Slice<UserProfile> slice;
-
-    private boolean sampleState;
 
     @BeforeEach
     public void init() {
@@ -36,7 +33,6 @@ public class ReflectionSliceBuilderTest {
         setEmail.accept(newEmail);
         assertEquals(newName, slice.getState().getName());
         assertEquals(newEmail, slice.getState().getEmail());
-        assertFalse(sampleState);
     }
 
     @Test

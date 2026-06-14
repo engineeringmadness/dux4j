@@ -1,7 +1,7 @@
 package org.flux.store.tests.domain;
 
 import lombok.*;
-import org.flux.store.api.State;
+import org.flux.store.api.v1.State;
 
 @Getter
 @Setter

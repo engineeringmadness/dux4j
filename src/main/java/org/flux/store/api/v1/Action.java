@@ -1,4 +1,4 @@
-package org.flux.store.api;
+package org.flux.store.api.v1;
 
 import lombok.Getter;
 import lombok.ToString;

@@ -1,9 +1,8 @@
-package org.flux.store.tests;
+package org.flux.store.tests.v2;
 
-import org.flux.store.api.InvalidActionException;
-import org.flux.store.api.Slice;
-import org.flux.store.main.DuxSlice;
-import org.flux.store.main.DuxSliceBuilder;
+import org.flux.store.api.exceptions.InvalidActionException;
+import org.flux.store.api.v2.Slice;
+import org.flux.store.main.v2.DuxSliceBuilder;
 import org.flux.store.tests.domain.UserProfile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

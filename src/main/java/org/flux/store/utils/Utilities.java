@@ -1,6 +1,9 @@
 package org.flux.store.utils;
 
-import org.flux.store.api.*;
+import org.flux.store.api.v1.Action;
+import org.flux.store.api.v1.State;
+import org.flux.store.api.v2.Middleware;
+import org.flux.store.api.v1.Reducer;
 
 import java.util.concurrent.atomic.AtomicReference;
 

@@ -1,9 +1,9 @@
-package org.flux.store.main;
+package org.flux.store.main.v2;
 
 import lombok.Getter;
-import org.flux.store.api.Middleware;
-import org.flux.store.api.Reducer;
-import org.flux.store.api.State;
+import org.flux.store.api.v2.Middleware;
+import org.flux.store.api.v1.Reducer;
+import org.flux.store.api.v1.State;
 
 import java.util.ArrayList;
 import java.util.HashMap;
