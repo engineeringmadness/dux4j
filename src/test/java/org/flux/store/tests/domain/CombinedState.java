@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.flux.store.api.State;
+import org.flux.store.api.v1.State;
 
 @Getter
 @Setter

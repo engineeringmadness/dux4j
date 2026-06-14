@@ -1,4 +1,4 @@
-package org.flux.store.api;
+package org.flux.store.api.v3;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

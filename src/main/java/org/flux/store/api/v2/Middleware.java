@@ -1,4 +1,8 @@
-package org.flux.store.api;
+package org.flux.store.api.v2;
+
+import org.flux.store.api.v1.State;
+import org.flux.store.api.v1.Action;
+import org.flux.store.api.v1.Store;
 
 import java.util.function.Consumer;
 

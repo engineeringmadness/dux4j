@@ -1,7 +1,12 @@
-package org.flux.store.main;
+package org.flux.store.main.v3;
 
 import lombok.Getter;
-import org.flux.store.api.*;
+import org.flux.store.api.v1.State;
+import org.flux.store.api.v2.Middleware;
+import org.flux.store.api.v1.Reducer;
+import org.flux.store.api.v3.AutoStore;
+import org.flux.store.api.v3.ReducerBlock;
+import org.flux.store.main.v2.DuxSlice;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
 package org.flux.store.utils;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.flux.store.api.Action;
+import org.flux.store.api.v1.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

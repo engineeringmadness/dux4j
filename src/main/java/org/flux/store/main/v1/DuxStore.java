@@ -1,16 +1,18 @@
-package org.flux.store.main;
+package org.flux.store.main.v1;
 
 import com.google.gson.Gson;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.DiffResult;
-import org.flux.store.api.*;
+import org.flux.store.api.v1.Action;
+import org.flux.store.api.v1.State;
+import org.flux.store.api.v2.Middleware;
+import org.flux.store.api.v1.Reducer;
+import org.flux.store.api.v1.Store;
 import org.flux.store.utils.AsyncProcessor;
 import org.flux.store.utils.TimeTravel;
 import org.flux.store.utils.Utilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;

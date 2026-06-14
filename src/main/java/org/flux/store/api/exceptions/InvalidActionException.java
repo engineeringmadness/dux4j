@@ -1,4 +1,4 @@
-package org.flux.store.api;
+package org.flux.store.api.exceptions;
 
 public class InvalidActionException extends Exception{
 

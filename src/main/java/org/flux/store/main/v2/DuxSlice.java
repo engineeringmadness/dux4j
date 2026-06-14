@@ -1,10 +1,13 @@
-package org.flux.store.main;
+package org.flux.store.main.v2;
 
-import org.apache.commons.lang3.StringUtils;
-import org.flux.store.api.*;
+import org.flux.store.api.exceptions.InvalidActionException;
+import org.flux.store.api.v1.State;
+import org.flux.store.api.v2.Middleware;
+import org.flux.store.api.v1.Reducer;
+import org.flux.store.api.v2.Slice;
+import org.flux.store.main.v1.DuxStore;
 import org.flux.store.utils.Utilities;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +23,7 @@ public class DuxSlice<T extends State> implements Slice<T> {
         this.actions = actions;
     }
 
-    protected static <T extends State> DuxSlice<T> createSlice(T initialState, Map<String, Reducer<T>> reducers, List<Consumer<T>> subscribers, Middleware<T> middleware) {
+    public static <T extends State> DuxSlice<T> createSlice(T initialState, Map<String, Reducer<T>> reducers, List<Consumer<T>> subscribers, Middleware<T> middleware) {
         Reducer<T> reducer = (action, state) -> {
             for (String key: reducers.keySet()) {
                 if(action.getType().equalsIgnoreCase(key)) {

@@ -18,7 +18,7 @@ _replaceReducer_ As the name suggests it lets you replace the reducer function i
 Firstly we need to define the model representing our application state. our Application State class has to implement the State interface provided by DuxJava
 
 ```java
-import org.flux.store.api.State;
+import org.flux.store.api.v1.State;
 
 public class UserProfile implements State {
     private String name;
@@ -29,7 +29,7 @@ public class UserProfile implements State {
         // clone method implementation
     }
 
-   // getters and setters
+    // getters and setters
 }
 
 ```
