@@ -25,6 +25,12 @@ jobs:
         server-id: github
         settings-path: ${{ github.workspace }}
 
+    - name: Set version from Git tag
+      run: |
+        TAG_VERSION="${GITHUB_REF_NAME#v}"
+        echo "Tag: $GITHUB_REF_NAME → Version: $TAG_VERSION"
+        mvn versions:set -DnewVersion=$TAG_VERSION -q
+
     - name: Publish to GitHub Packages
       env:
         GITHUB_TOKEN: ${{ github.token }}
