@@ -62,7 +62,7 @@ public class DuxStore<T extends State> implements Store<T> {
         }
     }
 
-    private void dispatchInternal(Action action) {
+    private synchronized void dispatchInternal(Action action) {
         T newState = reducer.reduce(action, (T) state.clone());
         DiffResult diffResult = newState.diff(state);
         boolean isChanged = diffResult.getNumberOfDiffs() > 0;
@@ -73,7 +73,7 @@ public class DuxStore<T extends State> implements Store<T> {
         }
     }
 
-    private void dispatchNoNotify(Action action) {
+    private synchronized void dispatchNoNotify(Action action) {
         if(action.getType().equalsIgnoreCase(Utilities.INITIAL_ACTION)) {
             // Ignore action
         } else if(action.getType().equalsIgnoreCase(Utilities.RESTORE_ACTION)) {
@@ -93,7 +93,7 @@ public class DuxStore<T extends State> implements Store<T> {
     }
 
     @Override
-    public T getState() {
+    public synchronized T getState() {
         return this.state;
     }
 
@@ -106,7 +106,7 @@ public class DuxStore<T extends State> implements Store<T> {
         this.listeners.forEach(l -> AsyncProcessor.submitNotify(l, this.state));
     }
 
-    public void goBack() {
+    public synchronized void goBack() {
         boolean recreateSnapshot = this.timeTravel.goBack();
         this.state = this.timeTravel.getSnapshot();
         if(recreateSnapshot) {
@@ -124,7 +124,7 @@ public class DuxStore<T extends State> implements Store<T> {
         this.notifyListeners();
     }
 
-    public void goForward() {
+    public synchronized void goForward() {
         this.timeTravel.goForward();
         Action latestAction = this.timeTravel.getLatestAction();
         T newState = reducer.reduce(latestAction, (T) state.clone());
@@ -132,7 +132,7 @@ public class DuxStore<T extends State> implements Store<T> {
         this.notifyListeners();
     }
 
-    public List<String> getActionHistory() {
+    public synchronized List<String> getActionHistory() {
         return this.timeTravel.getFullActionHistory();
     }
 }
