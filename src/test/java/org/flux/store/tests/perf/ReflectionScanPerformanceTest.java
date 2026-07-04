@@ -3,12 +3,14 @@ package org.flux.store.tests.perf;
 import org.flux.store.api.v2.Slice;
 import org.flux.store.main.v3.ReflectionDuxSliceBuilder;
 import org.flux.store.tests.domain.UserProfile;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("perf")
 public class ReflectionScanPerformanceTest {
 
     private static final int BUILDS = 10;

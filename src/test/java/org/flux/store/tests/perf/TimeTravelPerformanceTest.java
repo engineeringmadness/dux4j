@@ -3,6 +3,7 @@ package org.flux.store.tests.perf;
 import org.flux.store.main.v1.DuxStore;
 import org.flux.store.tests.domain.UserProfile;
 import org.flux.store.utils.Utilities;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -11,6 +12,7 @@ import java.util.function.BiFunction;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("perf")
 public class TimeTravelPerformanceTest {
 
     private static final String ACTION_SET_NAME = "SET_NAME";

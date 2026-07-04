@@ -11,9 +11,10 @@ import java.util.stream.Collectors;
 @SuppressWarnings("rawtypes")
 @Getter
 public class TimeTravel<T> {
+    public static final Integer snapshotNumberLimit = 100;
+    public static final Integer snapshotThreshold = 10;
     private final List<Action> actions;
     private final List<T> checkpointStates = new ArrayList<>();
-    private static final Integer snapshotThreshold = 10;
     private Integer index;
 
     public TimeTravel() {

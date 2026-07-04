@@ -4,12 +4,14 @@ import org.flux.store.main.v1.DuxStore;
 import org.flux.store.tests.domain.CounterState;
 import org.flux.store.utils.Utilities;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("perf")
 public class DispatchThroughputTest {
 
     private static final String ACTION_INCREMENT = "INCREMENT";

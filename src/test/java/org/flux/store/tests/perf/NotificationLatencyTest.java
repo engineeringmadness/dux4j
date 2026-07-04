@@ -3,6 +3,7 @@ package org.flux.store.tests.perf;
 import org.flux.store.main.v1.DuxStore;
 import org.flux.store.tests.domain.CounterState;
 import org.flux.store.utils.Utilities;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("perf")
 public class NotificationLatencyTest {
 
     private static final String ACTION_INCREMENT = "INCREMENT";

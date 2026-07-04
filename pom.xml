@@ -180,9 +180,35 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                         <version>5.2.0</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <properties>
+                        <includeTags>${test.groups}</includeTags>
+                        <excludeTags>${test.excludedGroups}</excludeTags>
+                    </properties>
+                </configuration>
             </plugin>
 
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>functional</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <test.excludedGroups>perf</test.excludedGroups>
+                <test.groups></test.groups>
+            </properties>
+        </profile>
+        <profile>
+            <id>perf</id>
+            <properties>
+                <test.excludedGroups></test.excludedGroups>
+                <test.groups>perf</test.groups>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
