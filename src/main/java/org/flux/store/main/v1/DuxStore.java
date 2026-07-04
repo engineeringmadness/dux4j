@@ -107,16 +107,8 @@ public class DuxStore<T extends State> implements Store<T> {
     }
 
     public synchronized void goBack() {
-        boolean recreateSnapshot = this.timeTravel.goBack();
+        this.timeTravel.goBack();
         this.state = this.timeTravel.getSnapshot();
-        if(recreateSnapshot) {
-            this.state = this.timeTravel.getInitialState();
-            List<Action> actionsForSnapshot = this.timeTravel.getActionHistory();
-            for (Action action: actionsForSnapshot) {
-                dispatchTimeTravel(action);
-            }
-            this.timeTravel.setSnapshot(this.state);
-        }
         List<Action> actionsToRecreateState = this.timeTravel.getActionToRecreate();
         for (Action action: actionsToRecreateState) {
             dispatchTimeTravel(action);
