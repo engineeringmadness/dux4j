@@ -1,6 +1,7 @@
 package org.flux.store.utils;
 
 import lombok.Getter;
+import org.flux.store.api.exceptions.TimeTravelExceededException;
 import org.flux.store.api.v1.Action;
 
 import java.util.ArrayList;
@@ -11,10 +12,14 @@ import java.util.stream.Collectors;
 @SuppressWarnings("rawtypes")
 @Getter
 public class TimeTravel<T> {
+    public static final Integer snapshotNumberLimit = 100;
+    public static final Integer snapshotThreshold = 10;
     private final List<Action> actions;
     private final List<T> checkpointStates = new ArrayList<>();
-    private static final Integer snapshotThreshold = 10;
     private Integer index;
+    // Number of oldest checkpoints evicted by pruning; offsets checkpointStates
+    // indexing so getSnapshot still maps an action index to the right checkpoint.
+    private int evictedCheckpoints = 0;
 
     public TimeTravel() {
         this.actions = Collections.synchronizedList(new ArrayList<>());
@@ -28,6 +33,11 @@ public class TimeTravel<T> {
         // checkpoint instead of replaying the entire history from initial state.
         if(index % snapshotThreshold == 0) {
             checkpointStates.add(newState);
+            // Prune oldest snapshots when the limit is breached to bound memory.
+            if(checkpointStates.size() > snapshotNumberLimit) {
+                checkpointStates.subList(0, snapshotThreshold).clear();
+                evictedCheckpoints += snapshotThreshold;
+            }
         }
     }
 
@@ -37,8 +47,16 @@ public class TimeTravel<T> {
     }
 
     public void goBack() {
-        if(index > 0)
-            index --;
+        if (index > 0) {
+            int targetIndex = index - 1;
+            int targetCheckpoint = targetIndex / snapshotThreshold;
+            if (targetCheckpoint - evictedCheckpoints < 0) {
+                throw new TimeTravelExceededException(
+                    "Cannot go back: snapshot for index " + targetIndex + " has been evicted. " +
+                    "Time travel history beyond the oldest retained checkpoint is unavailable.");
+            }
+            index = targetIndex;
+        }
     }
 
     private int getPreviousCheckpoint() {
@@ -70,8 +88,14 @@ public class TimeTravel<T> {
 
     public T getSnapshot() {
         int checkpointNum = getPreviousCheckpoint() / snapshotThreshold;
-        if (checkpointNum >= 0 && checkpointNum < checkpointStates.size()) {
-            return checkpointStates.get(checkpointNum);
+        int listIndex = checkpointNum - evictedCheckpoints;
+        if (listIndex >= 0 && listIndex < checkpointStates.size()) {
+            return checkpointStates.get(listIndex);
+        }
+        if (listIndex < 0) {
+            throw new TimeTravelExceededException(
+                "Snapshot for checkpoint " + checkpointNum + " has been evicted. " +
+                "Time travel history prior to this point is unavailable.");
         }
         return getInitialState();
     }

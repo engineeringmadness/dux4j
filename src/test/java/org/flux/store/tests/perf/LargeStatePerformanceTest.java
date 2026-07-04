@@ -4,6 +4,7 @@ import org.flux.store.main.v1.DuxStore;
 import org.flux.store.tests.domain.CatalogItem;
 import org.flux.store.tests.domain.CatalogState;
 import org.flux.store.utils.Utilities;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("perf")
 public class LargeStatePerformanceTest {
 
     private static final String ACTION_ADD_ITEM = "ADD_ITEM";

@@ -34,5 +34,5 @@ jobs:
     - name: Publish to GitHub Packages
       env:
         GITHUB_TOKEN: ${{ github.token }}
-      run: mvn clean deploy -s $GITHUB_WORKSPACE/settings.xml -DbackupPath="./test.json"
+      run: mvn clean deploy -s $GITHUB_WORKSPACE/settings.xml
 

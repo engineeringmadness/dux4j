@@ -21,4 +21,4 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - run: mvn clean test -DbackupPath="./test.json"
+    - run: mvn clean test
