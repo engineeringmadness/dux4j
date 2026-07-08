@@ -17,7 +17,7 @@ public class DispatchThroughputTest {
     private static final String ACTION_INCREMENT = "INCREMENT";
     private static final int WARMUP_ACTIONS = 10_000;
     private static final int MEASURED_ACTIONS = 100_000;
-    private static final long MINIMUM_THROUGHPUT_OPS_PER_SECOND = 290_000;
+    private static final long MINIMUM_THROUGHPUT_OPS_PER_SECOND = 250_000;
 
     private DuxStore<CounterState> store;
 

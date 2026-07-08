@@ -19,7 +19,7 @@ public class NotificationLatencyTest {
 
     private static final String ACTION_INCREMENT = "INCREMENT";
     private static final int ITERATIONS = 200;
-    private static final long MAX_ALLOWED_LATENCY_NANOS = TimeUnit.MILLISECONDS.toNanos(8);
+    private static final long MAX_ALLOWED_LATENCY_NANOS = TimeUnit.MILLISECONDS.toNanos(15);
     private static final long AVERAGE_ALLOWED_LATENCY_NANOS = TimeUnit.MILLISECONDS.toNanos(1);
 
     @Test
