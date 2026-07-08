@@ -29,10 +29,10 @@ jobs:
       run: |
         TAG_VERSION="${GITHUB_REF_NAME#v}"
         echo "Tag: $GITHUB_REF_NAME → Version: $TAG_VERSION"
-        mvn versions:set -DnewVersion=$TAG_VERSION -q
+        mvn -f library-core/pom.xml versions:set -DnewVersion=$TAG_VERSION -q
 
     - name: Publish to GitHub Packages
       env:
         GITHUB_TOKEN: ${{ github.token }}
-      run: mvn clean deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn -f library-core/pom.xml clean deploy -s $GITHUB_WORKSPACE/settings.xml
 

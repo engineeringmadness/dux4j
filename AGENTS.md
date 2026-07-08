@@ -83,3 +83,7 @@ Functional, Reliability tests are to be used for checking regression when refact
 
 Performance tests are run after ensuring there is no regression issues
 > mvn test -Pperf
+
+## Agent Docs
+
+Additional library documentation is available in @library-core/agent-docs/
