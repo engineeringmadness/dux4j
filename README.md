@@ -1,10 +1,10 @@
 # Dux4j
-
 ![workflow](https://github.com/compscikaran/dux4j/actions/workflows/ci-build.yml/badge.svg)
-![workflow](https://github.com/compscikaran/dux4j/actions/workflows/maven-publish.yml/badge.svg)
-![workflow](https://github.com/compscikaran/dux4j/actions/workflows/codeql.yml/badge.svg)
 
-Redux like unidirectional state management implementation for Java.
+Redux like unidirectional state management implementation for Java. 
+
+<img width="250" height="250" alt="Dux" src="https://github.com/user-attachments/assets/df1c4b4c-476a-4274-a2d7-5497c57f4275" />
+
 
 ## How the idea came about
 
