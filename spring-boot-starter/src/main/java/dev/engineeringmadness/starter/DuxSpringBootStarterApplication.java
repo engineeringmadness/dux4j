@@ -1,4 +1,4 @@
-package dev.engineeringmadness.dux_spring_boot_starter;
+package dev.engineeringmadness.starter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
