@@ -1,5 +1,6 @@
 package dev.engineeringmadness.starter.logic;
 
+import dev.engineeringmadness.starter.domain.AddRatingRequest;
 import dev.engineeringmadness.starter.domain.Book;
 import dev.engineeringmadness.starter.domain.BookEntity;
 import dev.engineeringmadness.starter.domain.BookStoreState;
@@ -8,6 +9,7 @@ import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import org.flux.store.api.v2.Slice;
 import org.flux.store.main.v2.DuxSliceBuilder;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Configuration
 @RequiredArgsConstructor
@@ -27,11 +30,12 @@ public class BookStore {
     private final BookRepository bookRepository;
     private Slice<BookStoreState> slice;
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     @Bean
     public Slice<BookStoreState> bookStoreSlice() {
         List<Book> persistedBooks = bookRepository.findAll().stream()
-                .map(BookEntity::toBook)
+                .map(x -> modelMapper.map(x, Book.class))
                 .toList();
         log.info("Loaded {} books from database on startup", persistedBooks.size());
 
@@ -53,22 +57,18 @@ public class BookStore {
                     return state;
                 })
                 .addReducer("addRating", (action, state) -> {
-                    Map<String, Object> payload = (Map<String, Object>) action.getPayload();
-                    String isbn = (String) payload.get("isbn");
-                    Object ratingObj = payload.get("rating");
-                    int rating = ratingObj instanceof Integer ? (Integer) ratingObj : ((Number) ratingObj).intValue();
+                    AddRatingRequest request = objectMapper.convertValue(action.getPayload(), AddRatingRequest.class);
+                    final String isbnToFind = request.isbn();
+                    int rating = request.rating();
                     if (rating < 1 || rating > 5) {
-                        log.warn("Invalid rating {} for ISBN {}. Must be 1-5.", rating, isbn);
+                        log.warn("Invalid rating {} for ISBN {}. Must be 1-5.", rating, isbnToFind);
                         return state;
                     }
                     state.getBooks().stream()
-                            .filter(book -> book.getIsbn().equals(isbn))
+                            .filter(book -> book.getIsbn().equals(isbnToFind))
                             .findFirst()
                             .ifPresent(book -> {
-                                if (book.getRatings() == null) {
-                                    book.setRatings(new ArrayList<>());
-                                }
-                                book.getRatings().add(rating);
+                                book.setRating(rating);
                                 log.info("Added rating {} to book: {}", rating, book.getTitle());
                             });
                     return state;
@@ -84,19 +84,11 @@ public class BookStore {
 
     private void syncToDatabase(BookStoreState state) {
         List<BookEntity> entities = state.getBooks().stream()
-                .map(BookEntity::fromBook)
+                .map(x -> bookRepository.findById(x.getIsbn()).isPresent() ?
+                        bookRepository.findById(x.getIsbn()).get() : modelMapper.map(x, BookEntity.class))
                 .toList();
         bookRepository.deleteAll();
         bookRepository.saveAll(entities);
         log.info("Synced {} books to database", entities.size());
-    }
-
-    @PreDestroy
-    public void onShutdown() {
-        if (this.slice != null) {
-            BookStoreState currentState = this.slice.getState();
-            log.info("Application shutting down. Persisting {} books to database.", currentState.getBooks().size());
-            syncToDatabase(currentState);
-        }
     }
 }

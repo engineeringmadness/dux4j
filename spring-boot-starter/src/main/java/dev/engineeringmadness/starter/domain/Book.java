@@ -16,5 +16,5 @@ public class Book {
     private String author;
     private String isbn;
     private int numOfPages;
-    private List<Integer> ratings = new ArrayList<>();
+    private int rating;
 }

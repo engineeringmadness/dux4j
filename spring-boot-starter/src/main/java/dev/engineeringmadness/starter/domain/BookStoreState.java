@@ -18,19 +18,7 @@ public class BookStoreState implements State {
     @Override
     public BookStoreState clone() {
         try {
-            BookStoreState copy = (BookStoreState) super.clone();
-            copy.books = new ArrayList<>();
-            for (Book book : this.books) {
-                Book bookCopy = new Book();
-                bookCopy.setTitle(book.getTitle());
-                bookCopy.setSummary(book.getSummary());
-                bookCopy.setAuthor(book.getAuthor());
-                bookCopy.setIsbn(book.getIsbn());
-                bookCopy.setNumOfPages(book.getNumOfPages());
-                bookCopy.setRatings(new ArrayList<>(book.getRatings()));
-                copy.books.add(bookCopy);
-            }
-            return copy;
+            return (BookStoreState) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
