@@ -13,7 +13,9 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <url>http://dux4j.netlify.app/</url>
 
     <scm>
-        <url>https://github.com/engineeringmadness/dux4j</url>
+        <connection>scm:git:git://github.com/engineeringmadness/dux4j.git</connection>
+        <developerConnection>scm:git:ssh://github.com:engineeringmadness/dux4j.git</developerConnection>
+        <url>https://github.com/engineeringmadness/dux4j/tree/master</url>
     </scm>
 
     <distributionManagement>
