@@ -30,7 +30,8 @@ jobs:
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
       run: |
         echo "$GPG_PRIVATE_KEY" > private-key.asc
-        gpg --batch --import private-key.asc
+        # gpg exits 2 on non-fatal warnings (e.g. armor header masked by GitHub); key still imports
+        gpg --batch --import private-key.asc || [ $? -eq 2 ]
         rm -f private-key.asc
         echo "use-agent" >> ~/.gnupg/gpg.conf
         echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
