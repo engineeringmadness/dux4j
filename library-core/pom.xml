@@ -18,13 +18,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <url>https://github.com/engineeringmadness/dux4j/tree/master</url>
     </scm>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub EngineeringMadness Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/engineeringmadness/dux4j</url>
-        </repository>
-    </distributionManagement>
+
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -165,12 +159,12 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>3.2.7</version><!-- Check for latest version at Maven Central -->
                 <configuration>
-                    <!-- Optional: specify which key to use -->
                     <keyname>BD4767D8F132F487B3E266450B83B7570500B76E</keyname>
-                    <!-- Prevent gpg from using pinentry programs -->
                     <gpgArguments>
                         <arg>--pinentry-mode</arg>
                         <arg>loopback</arg>
+                        <arg>--batch</arg>
+                        <arg>--no-tty</arg>
                     </gpgArguments>
                 </configuration>
                 <executions>
