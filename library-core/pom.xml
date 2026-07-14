@@ -8,9 +8,9 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>dux4j</artifactId>
     <version>2.0.0</version>
     <packaging>jar</packaging>
-    <name>Dux4J</name>
-    <description>Flux based Unidirectional store for Java</description>
-    <url>https://github.com/engineeringmadness/dux4j</url>
+    <name>Dux4j</name>
+    <description>A Redux / Flux like state management library for Java applications</description>
+    <url>http://dux4j.netlify.app/</url>
 
     <scm>
         <url>https://github.com/engineeringmadness/dux4j</url>
@@ -38,7 +38,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <developers>
         <developer>
-            <id>compscikaran</id>
+            <id>engineeringmadness</id>
             <name>Karan Gupta</name>
             <email>gkaran184@gmail.com</email>
         </developer>
