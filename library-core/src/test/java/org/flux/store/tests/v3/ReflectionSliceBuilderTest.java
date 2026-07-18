@@ -19,7 +19,6 @@ public class ReflectionSliceBuilderTest {
     public void init() {
         this.slice = new ReflectionDuxSliceBuilder<UserProfile>()
                 .setInitialState(new UserProfile("Karan Gupta", "karan@hello.com"))
-                .setStoreName("MyStore")
                 .setBasePackage("org.flux.store.tests.reflection")
                 .build();
     }

@@ -1,12 +1,12 @@
-package org.flux.store.tests.reflection;
+package org.flux.store.tests.reflection.other;
 
 import org.flux.store.api.v1.Action;
 import org.flux.store.api.v3.AutoStore;
 import org.flux.store.api.v3.ReducerBlock;
 import org.flux.store.tests.domain.UserProfile;
 
-@AutoStore("OtherStore")
-public class OtherStoreReducer implements ReducerBlock<UserProfile> {
+@AutoStore
+public class DifferentStoreReducer implements ReducerBlock<UserProfile> {
 
     @Override
     public String getType() {
@@ -15,7 +15,7 @@ public class OtherStoreReducer implements ReducerBlock<UserProfile> {
 
     @Override
     public UserProfile reduce(Action action, UserProfile state) {
-        state.setName("other:" + action.getPayload().toString());
+        state.setName("different:" + action.getPayload().toString());
         return state;
     }
 }

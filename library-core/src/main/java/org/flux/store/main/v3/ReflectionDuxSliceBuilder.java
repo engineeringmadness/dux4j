@@ -19,16 +19,10 @@ import java.util.function.Consumer;
 @Getter
 public class ReflectionDuxSliceBuilder<T extends State> {
 
-    private String storeName;
     private String basePackage;
     private List<Consumer<T>> subscribers = new ArrayList<>();
     private Middleware<T> middleware;
     private T initialState;
-
-    public ReflectionDuxSliceBuilder<T> setStoreName(String storeName) {
-        this.storeName = storeName;
-        return this;
-    }
 
     public ReflectionDuxSliceBuilder<T> setBasePackage(String basePackage) {
         this.basePackage = basePackage;
@@ -57,8 +51,7 @@ public class ReflectionDuxSliceBuilder<T extends State> {
         Map<String, Reducer<T>> reducers = new HashMap<>();
         for (Class<?> clazz : annotated) {
             AutoStore annotation = clazz.getAnnotation(AutoStore.class);
-            if (annotation.value().equals(storeName) && ReducerBlock.class.isAssignableFrom(clazz)) {
-                System.out.println("Found reducer for : " + this.storeName + " " + clazz.getName());
+            if (annotation != null && ReducerBlock.class.isAssignableFrom(clazz)) {
                 ReducerBlock<T> instance = getInstance(clazz);
                 reducers.put(instance.getType(), instance);
             }

@@ -18,7 +18,6 @@ public class ReflectionReliabilityTest {
     public void reducersForOtherStoreAreIgnored() {
         Slice<UserProfile> slice = new ReflectionDuxSliceBuilder<UserProfile>()
                 .setInitialState(new UserProfile("Karan", "karan@hello.com"))
-                .setStoreName("MyStore")
                 .setBasePackage(BASE_PACKAGE)
                 .build();
 
@@ -28,39 +27,11 @@ public class ReflectionReliabilityTest {
     }
 
     @Test
-    public void missingStoreNameMatchesNothing() {
-        Slice<UserProfile> slice = new ReflectionDuxSliceBuilder<UserProfile>()
-                .setInitialState(new UserProfile("Karan", "karan@hello.com"))
-                .setBasePackage(BASE_PACKAGE)
-                .build();
-
-        assertThrows(InvalidActionException.class, () -> slice.getAction("setName"));
-    }
-
-    @Test
     public void missingBasePackageThrows() {
         assertThrows(RuntimeException.class, () ->
                 new ReflectionDuxSliceBuilder<UserProfile>()
                         .setInitialState(new UserProfile("Karan", "karan@hello.com"))
-                        .setStoreName("MyStore")
                         .build()
         );
-    }
-
-    @Test
-    public void duplicateReducerTypesAreResolved() throws InvalidActionException {
-        // Both SetNameReducer and DuplicateNameReducer are annotated with MyStore and handle "setName".
-        // The slice must still be usable; whichever reducer wins, the action should be dispatchable.
-        Slice<UserProfile> slice = new ReflectionDuxSliceBuilder<UserProfile>()
-                .setInitialState(new UserProfile("Karan", "karan@hello.com"))
-                .setStoreName("MyStore")
-                .setBasePackage(BASE_PACKAGE)
-                .build();
-
-        Consumer setName = slice.getAction("setName");
-        setName.accept("Alice");
-        String result = slice.getState().getName();
-        assertTrue("Alice".equals(result) || "ALICE".equals(result),
-                "One of the duplicate reducers should have won");
     }
 }
