@@ -22,7 +22,6 @@ public class ReflectionScanPerformanceTest {
         for (int i = 0; i < BUILDS; i++) {
             Slice<UserProfile> slice = new ReflectionDuxSliceBuilder<UserProfile>()
                     .setInitialState(new UserProfile("Karan", "karan@hello.com"))
-                    .setStoreName("CleanStore")
                     .setBasePackage("org.flux.store.tests.reflection.clean")
                     .build();
             assertTrue(slice.getState().getName().contains("Karan"));

@@ -5,7 +5,7 @@ import org.flux.store.api.v3.ReducerBlock;
 import org.flux.store.api.v3.AutoStore;
 import org.flux.store.tests.domain.UserProfile;
 
-@AutoStore("MyStore")
+@AutoStore
 public class SetNameReducer implements ReducerBlock<UserProfile> {
     @Override
     public String getType() {
